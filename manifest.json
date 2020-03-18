@@ -6,7 +6,11 @@
   "content_scripts": [
     {
       "matches": ["https://www.reddit.com/"],
-      "js": ["background.js"]
+      "js": ["scroller.js"]
     }
-  ]
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Scroller"
+  }
 }
