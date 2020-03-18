@@ -2,16 +2,20 @@
 <html>
 
 <head>
-    <script src="popup.js"></script> 
+    <script src="popup.js"></script>
     <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 
 <body>
-    <input id="segundos" type="number" min="1" placeholder="15" onkeypress="return isNumber(event)">
+    <table>
+        <td><input id="segundos" type="number" min="1" placeholder="15" onkeypress="return isNumber(event)"> s</td>
+        <td><button id="boton">
+                Start
+            </button></td>
+    </table>
+
     <div>
-        <button id="boton">
-            Start
-        </button>
+
     </div>
 </body>
 

@@ -1,6 +1,7 @@
 #boton{
-    width: 90px;
-    height: 40px;
+    width: 120px;
+    height: 50px;
+ margin-left: -60px;
 }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
@@ -13,5 +14,5 @@ input[type=number] {
 #segundos{
     border: none;
     border-bottom: 4px solid black;
-    
+    width: 35%;
 }
