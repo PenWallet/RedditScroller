@@ -2,5 +2,11 @@
   "name": "Reddit Scroller",
   "version": "1.0",
   "description": "Automatically scroll to the next Reddit post after however many seconds the user wants.",
-  "manifest_version": 2
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["https://www.reddit.com/"],
+      "js": ["background.js"]
+    }
+  ]
 }
