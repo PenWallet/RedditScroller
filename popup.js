@@ -1,8 +1,19 @@
-function isNumber(evt){
+/*
+Comprobar si lo que introducimos es un número 
+ */
+
+function isNumber(evt) {
     var charCode = (evt.which) ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
+    if ((charCode < 48 || charCode > 57 || charCode == 101))
         return false;
     return true;
+}
+/*
+Comprobar que sólo sean 3 caracteres
+*/
+function maxLengthCheck(object) {
+    if (object.value.length > object.maxLength)
+        object.value = object.value.slice(0, object.maxLength)
 }
 
 function maxLengthCheck() {
