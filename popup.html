@@ -8,11 +8,12 @@
 
 <body>
     <table id="tableScroller">
-        <td><input id="segundos" type="number" placeholder=" " maxlength="3" onkeypress="return isNumber(event)"></td>
+        <td><input id="segundos" type="number" placeholder=" " maxlength="3" onkeypress="return isNumber(event)" oninput="maxLengthCheck(this)"></td>
         <td>s</td>
-        <td><button id="btnScroller">
-                Start
-            </button></td>
+        <td><label class="toggler">
+            <input type="checkbox">
+            <span class="slider round"></span>
+          </label></td>
     </table>
 
     <div>
