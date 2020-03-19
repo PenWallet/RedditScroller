@@ -5,9 +5,23 @@ function isNumber(evt){
     return true;
 }
 
+function maxLengthCheck() {
+    var seconds = document.getElementById("seconds");
+
+    if (seconds.value.length > seconds.maxLength) 
+        seconds.value = seconds.value.slice(0, seconds.maxLength) 
+}
+
 document.addEventListener('DOMContentLoaded', function()
 {
-    document.getElementById("btnScroller").addEventListener('click', onclick, false);
+    var btnScroller = document.getElementById("btnScroller");
+    var seconds = document.getElementById("seconds");
+
+    console.log("Probando");
+
+    btnScroller.addEventListener('click', onclick, false);
+    seconds.onkeypress = isNumber;
+    seconds.oninput = maxLengthCheck;
     
     function onclick()
     {
