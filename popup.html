@@ -7,9 +7,10 @@
 </head>
 
 <body>
-    <table>
-        <td><input id="segundos" type="number" min="1" placeholder="15" onkeypress="return isNumber(event)"> s</td>
-        <td><button id="boton">
+    <table id="tableScroller">
+        <td><input id="segundos" type="number" placeholder=" " maxlength="3" onkeypress="return isNumber(event)"></td>
+        <td>s</td>
+        <td><button id="btnScroller">
                 Start
             </button></td>
     </table>
