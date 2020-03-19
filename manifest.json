@@ -12,5 +12,10 @@
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "Scroller"
+  },
+  "permissions": ["storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
   }
 }

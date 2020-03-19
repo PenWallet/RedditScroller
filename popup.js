@@ -28,9 +28,19 @@ document.addEventListener('DOMContentLoaded', function()
     var cbScroller = document.getElementById("cbScroller");
     var seconds = document.getElementById("seconds");
 
-    //Recover the state
-    cbScroller.setAttribute("checked", sessionStorage.checkedScroller);
-    seconds.setAttribute("value", sessionStorage.scrollerSeconds);
+    //Recover the state of the checkbox
+    chrome.storage.local.get({'checkedScroller':false}, function(data)
+    {
+        console.log("Checked scroller: "+data.checkedScroller);
+        cbScroller.checked = data.checkedScroller;
+    });
+
+    //Recover the state of the seconds
+    chrome.storage.local.get({'scrollerSeconds':0}, function(data)
+    {
+        console.log("scroller Seconds: "+data.scrollerSeconds);
+        seconds.setAttribute('value', data.scrollerSeconds);
+    });
 
     //Listeners
     cbScroller.addEventListener('click', cbScrollerClick, false);
@@ -41,8 +51,8 @@ document.addEventListener('DOMContentLoaded', function()
     function cbScrollerClick()
     {
         //Save the state so it persists when the popup is reopened
-        sessionStorage.checkedScroller = cbScroller.checked;
-        sessionStorage.scrollerSeconds = seconds.value;
+        chrome.storage.local.set({'checkedScroller': cbScroller.checked});
+        chrome.storage.local.set({'scrollerSeconds': seconds.value});
 
         chrome.tabs.query({currentWindow: true, active: true},
             function(tabs)
