@@ -25,22 +25,32 @@ function maxLengthCheck() {
 
 document.addEventListener('DOMContentLoaded', function()
 {
-    var btnScroller = document.getElementById("btnScroller");
+    var cbScroller = document.getElementById("cbScroller");
     var seconds = document.getElementById("seconds");
 
-    console.log("Probando");
+    //Recover the state
+    cbScroller.setAttribute("checked", sessionStorage.checkedScroller);
+    seconds.setAttribute("value", sessionStorage.scrollerSeconds);
 
-    btnScroller.addEventListener('click', onclick, false);
+    //Listeners
+    cbScroller.addEventListener('click', cbScrollerClick, false);
     seconds.onkeypress = isNumber;
     seconds.oninput = maxLengthCheck;
     
-    function onclick()
+    //Function for when the checkbox is clicked
+    function cbScrollerClick()
     {
+        //Save the state so it persists when the popup is reopened
+        sessionStorage.checkedScroller = cbScroller.checked;
+        sessionStorage.scrollerSeconds = seconds.value;
+
         chrome.tabs.query({currentWindow: true, active: true},
             function(tabs)
             {
-                var seconds = document.getElementById("segundos").value;
-                chrome.tabs.sendMessage(tabs[0].id, seconds);
+                if(cbScroller.checked)
+                    chrome.tabs.sendMessage(tabs[0].id, seconds.value);
+                else //If it's unchecked, send seconds as 0
+                    chrome.tabs.sendMessage(tabs[0].id, 0);
             });
     }
 }, false);
