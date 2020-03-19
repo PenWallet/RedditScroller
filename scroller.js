@@ -1,1 +1,6 @@
-alert('Probando :D');
+chrome.runtime.onMessage.addListener(
+    function(request)
+    {
+        alert(request);
+    }
+)
