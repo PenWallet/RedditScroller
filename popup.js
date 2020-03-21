@@ -19,45 +19,51 @@ function maxLengthCheck(object) {
 function maxLengthCheck() {
     var seconds = document.getElementById("seconds");
 
-    if (seconds.value.length > seconds.maxLength) 
-        seconds.value = seconds.value.slice(0, seconds.maxLength) 
+    if (seconds.value.length > seconds.maxLength)
+        seconds.value = seconds.value.slice(0, seconds.maxLength)
 }
 
-document.addEventListener('DOMContentLoaded', function()
-{
+document.addEventListener('DOMContentLoaded', function () {
     var cbScroller = document.getElementById("cbScroller");
     var seconds = document.getElementById("seconds");
 
     //Recover the state of the checkbox
-    chrome.storage.local.get({'checkedScroller':false}, function(data)
-    {
-        console.log("Checked scroller: "+data.checkedScroller);
-        cbScroller.checked = data.checkedScroller;
-    });
+    chrome.tabs.query({ currentWindow: true, active: true },
+        function (tabs) {
+            var keyName = 'redditScroller' + tabs[0].id;
 
-    //Recover the state of the seconds
-    chrome.storage.local.get({'scrollerSeconds':0}, function(data)
-    {
-        console.log("scroller Seconds: "+data.scrollerSeconds);
-        seconds.setAttribute('value', data.scrollerSeconds);
-    });
+            console.log(keyName);
+
+            chrome.storage.local.get({keyName: {'checkedScroller': false, 'scrollerSeconds': 0}}, function (data) 
+            {
+                cbScroller.checked = data.keyName.checkedScroller;
+                seconds.setAttribute('value', data.keyName.scrollerSeconds);
+            });
+
+            /*Recover the state of the seconds
+            chrome.storage.local.get({ 'scrollerSeconds': 0 }, function (data)
+            {
+                seconds.setAttribute('value', data.scrollerSeconds);
+            });*/
+        });
+
+
 
     //Listeners
     cbScroller.addEventListener('click', cbScrollerClick, false);
     seconds.onkeypress = isNumber;
     seconds.oninput = maxLengthCheck;
-    
-    //Function for when the checkbox is clicked
-    function cbScrollerClick()
-    {
-        //Save the state so it persists when the popup is reopened
-        chrome.storage.local.set({'checkedScroller': cbScroller.checked});
-        chrome.storage.local.set({'scrollerSeconds': seconds.value});
 
-        chrome.tabs.query({currentWindow: true, active: true},
-            function(tabs)
-            {
-                if(cbScroller.checked)
+    //Function for when the checkbox is clicked
+    function cbScrollerClick() {
+        chrome.tabs.query({ currentWindow: true, active: true },
+            function (tabs) {
+                var keyName = 'redditScroller' + tabs[0].id;
+
+                //Save the state so it persists when the popup is reopened
+                chrome.storage.local.set({ keyName: { 'checkedScroller': cbScroller.checked, 'scrollerSeconds': seconds.value } });
+
+                if (cbScroller.checked)
                     chrome.tabs.sendMessage(tabs[0].id, seconds.value);
                 else //If it's unchecked, send seconds as 0
                     chrome.tabs.sendMessage(tabs[0].id, 0);
