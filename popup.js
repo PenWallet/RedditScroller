@@ -1,3 +1,6 @@
+//Tab data
+var tabData = {};
+
 /*
 Comprobar si lo que introducimos es un número 
  */
@@ -27,18 +30,24 @@ document.addEventListener('DOMContentLoaded', function () {
     var cbScroller = document.getElementById("cbScroller");
     var seconds = document.getElementById("seconds");
 
+    chrome.tabs.query({ currentWindow: true, active: true },
+        function (tabs) {
+            cbScroller.checked = chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller;
+            seconds.setAttribute('value',chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds);
+    });
+
     //Recover the state of the checkbox
     chrome.tabs.query({ currentWindow: true, active: true },
         function (tabs) {
             var keyName = 'redditScroller' + tabs[0].id;
 
-            console.log(keyName);
+            /*chrome.storage.local.get({ keyName: { 'checkedScroller': false, 'scrollerSeconds': 0 } }, function (data) {
+                console.log(data.keyName.checkedScroller);
+                console.log(data.keyName.scrollerSeconds);
 
-            chrome.storage.local.get({keyName: {'checkedScroller': false, 'scrollerSeconds': 0}}, function (data) 
-            {
                 cbScroller.checked = data.keyName.checkedScroller;
                 seconds.setAttribute('value', data.keyName.scrollerSeconds);
-            });
+            });*/
 
             /*Recover the state of the seconds
             chrome.storage.local.get({ 'scrollerSeconds': 0 }, function (data)
@@ -58,10 +67,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function cbScrollerClick() {
         chrome.tabs.query({ currentWindow: true, active: true },
             function (tabs) {
-                var keyName = 'redditScroller' + tabs[0].id;
-
                 //Save the state so it persists when the popup is reopened
-                chrome.storage.local.set({ keyName: { 'checkedScroller': cbScroller.checked, 'scrollerSeconds': seconds.value } });
+                //chrome.storage.local.set({ keyName: { 'checkedScroller': cbScroller.checked, 'scrollerSeconds': seconds.value } });
+                chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller = cbScroller.checked;
+                chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds = seconds.value;
 
                 if (cbScroller.checked)
                     chrome.tabs.sendMessage(tabs[0].id, seconds.value);
