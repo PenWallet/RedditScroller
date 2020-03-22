@@ -1,10 +1,6 @@
 var tabData = {};
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-    console.log('---- EMPIEZA OTRA VEZ ----')
-    console.log('Stat: '+changeInfo.status);
-    console.log('CURL: '+changeInfo.url);
-    console.log('TURL: '+tab.url);
 
     if (changeInfo.status === 'loading')
     {
@@ -22,9 +18,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         {
             delete tabData['tab_' + tabId];
         }
-
-        console.log('$$$$ ¡TENEMOS TABDATA! $$$$');
-        console.log(tabData);
     }
 });
 

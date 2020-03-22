@@ -9,7 +9,7 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
   }
-#segundos{
+#seconds{
     border: none;
     border-bottom: 4px solid black;
     width: 80px;
