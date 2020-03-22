@@ -13,8 +13,9 @@ chrome.runtime.onMessage.addListener(
             divs = document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].childNodes;
             headerHeight = document.getElementsByClassName('_1tvdSTbdxaK-BnUbzUIqIY _2GyPfdsi-MbQFyHRECo9GO cx1ohrUAq6ARaXTX2u8YN   ')[0].offsetHeight * -1;
 
+            //Start interval
             intervalID = setInterval(scroller, seconds*1000);
-            
+
             //Scroll as soon as it's clicked for the first time
             scrollPost();
 

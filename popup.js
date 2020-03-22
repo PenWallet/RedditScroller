@@ -42,16 +42,16 @@ document.addEventListener('DOMContentLoaded', function ()
     ------------ EXTRA FUNCTIONS -------------
 */
 
-//Comprobar si lo que introducimos es un número 
+//Check you can only type in numbers
 function isNumber(evt)
 {
     var charCode = (evt.which) ? evt.which : evt.keyCode
-    if ((charCode < 48 || charCode > 57 || charCode == 101))
+    if ((charCode < 48 || charCode > 57 || charCode == 101)) //101 is e
         return false;
     return true;
 }
 
-//Comprobar que sólo sean 3 caracteres
+//Check max 3 characters
 function maxLengthCheck()
 {
     var seconds = document.getElementById("seconds");
