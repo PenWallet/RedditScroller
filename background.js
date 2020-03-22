@@ -1,21 +1,36 @@
 var tabData = {};
 
-//Thanks to @BeardFist on StackOverflow
-/*chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab){
-    if (tab.url.indexOf("https://www.reddit.com/") > -1 && changeInfo.url === undefined){
-        //chrome.tabs.executeScript(tabId, {file: "program.js"} );
-        chrome.storage.local.set({'checkedScroller': false});
-    }
-});*/
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+    console.log('---- EMPIEZA OTRA VEZ ----')
+    console.log('Stat: '+changeInfo.status);
+    console.log('CURL: '+changeInfo.url);
+    console.log('TURL: '+tab.url);
 
-//Listeners for 
-chrome.tabs.onCreated.addListener(function (tab) {
-    tabData['tab_' + tab.id] = {
-        checkedScroller: false,
-        scrollerSeconds: 0
-    };
+    if (changeInfo.status === 'loading')
+    {
+        chrome.tabs.sendMessage(tabId, 0);
+
+        //If we're loading into reddit (whether newly, or reloading, doesn't matter)
+        if(tab.url.indexOf("https://www.reddit.com/") > -1)
+        {
+            tabData['tab_' + tabId] = {
+                checkedScroller: false,
+                scrollerSeconds: 0
+            };
+        }
+        else //if we're not loading into reddit, then we can delete the data from this tab
+        {
+            delete tabData['tab_' + tabId];
+        }
+
+        console.log('$$$$ ¡TENEMOS TABDATA! $$$$');
+        console.log(tabData);
+    }
 });
 
 chrome.tabs.onRemoved.addListener(function (tabId) {
-    delete tabData['tab_' + tabId];
+    if(tabData['tab_' + tabId])
+    {
+        delete tabData['tab_' + tabId];
+    }
 });
