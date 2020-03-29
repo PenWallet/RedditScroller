@@ -23,23 +23,23 @@ chrome.runtime.onMessage.addListener(
             //Scroll as soon as it's clicked for the first time
             scrollPost();
         }
-        else if(seconds == 0)   
+        else if(seconds == 0) //If it's 0 seconds, it means we stop the interval
         {
             stopScroller();
         }     
     }
 )
 
+//The function used in the timer interval
 function scrollerInterval()
 {
     if(i < divs.length)
         scrollPost();
     else
-    {
         stopScroller();
-    }
 }
 
+//Scrolls to the next post, uses global variables
 function scrollPost()
 {
     divs[i].scrollIntoView();
@@ -54,8 +54,10 @@ function scrollPost()
     }
 }
 
+//Checks whether an element is visible on the screen
 //Thanks to @Tokimon in StackOverflow
-function checkVisible(elm) {
+function checkVisible(elm) 
+{
     var rect = elm.getBoundingClientRect();
     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
@@ -64,27 +66,24 @@ function checkVisible(elm) {
 //Sets the correct index, based on where the user is on the webpage
 function setIndex()
 {
-    var found = false;
+    i = 0;
 
     for(j = 0; j < divs.length; j++)
     {
         if(checkVisible(divs[j]))
         {
-            found = true;
+            i = j;
             break;
         }
     }
-
-    if(found)
-        i = j;
-    else
-        i = 0;
 }
 
+//Stops the scrolling and sets some variables back to their default values
 function stopScroller()
 {
     clearInterval(intervalID);
+    i = 0;
+    intervalID = null;
     divs = null;
-    i = null;
     headerHeight = null;
 }
