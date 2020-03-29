@@ -54,15 +54,6 @@ function scrollPost()
     }
 }
 
-//Checks whether an element is visible on the screen
-//Thanks to @Tokimon in StackOverflow
-function checkVisible(elm) 
-{
-    var rect = elm.getBoundingClientRect();
-    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
-}
-
 //Sets the correct index, based on where the user is on the webpage
 function setIndex()
 {
@@ -86,4 +77,13 @@ function stopScroller()
     intervalID = null;
     divs = null;
     headerHeight = null;
+}
+
+//Checks whether an element is visible on the screen
+//Thanks to @Tokimon in StackOverflow
+function checkVisible(elm) 
+{
+    var rect = elm.getBoundingClientRect();
+    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 }
