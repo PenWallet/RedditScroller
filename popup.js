@@ -9,22 +9,36 @@ document.addEventListener('DOMContentLoaded', function ()
             //Enter only if user is in Reddit
             if(tabs[0].url.indexOf("https://www.reddit.com/") > -1)
             {
-                console.log('Entra en if');
-                //Recover the state of the popup (per tab basis)
-                cbScroller.checked = chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller;
-                seconds.setAttribute('value',chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds);
+                try
+                {
+                    //Hide error and show the scroller
+                    document.getElementById('rowScroller').style.display = 'block';
+                    document.getElementById('rowError').style.display = 'none';
 
-                //Listeners
-                cbScroller.addEventListener('click', cbScrollerClick, false);
-                seconds.onkeypress = isNumber;
-                seconds.oninput = maxLengthCheck;
+                    //Recover the state of the popup (per tab basis) 
+                    cbScroller.checked = chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller;
+                    seconds.setAttribute('value',chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds);
 
-                document.getElementById('rowScroller').style.display = 'block';
-                document.getElementById('rowError').style.display = 'none';
+                    //Listeners
+                    cbScroller.addEventListener('click', cbScrollerClick, false);
+                    seconds.onkeypress = isNumber;
+                    seconds.oninput = maxLengthCheck;
+
+                }catch(error) 
+                {
+                    //Whoops, something went wrong
+                    document.getElementById("errorMessage").innerHTML = "Please "+"reload this page".bold()+", we need to load important scripts in order for it to work properly :)";
+
+                    //Show the error, hide the content
+                    document.getElementById('rowScroller').style.display = 'none';
+                    document.getElementById('rowError').style.display = 'block';
+                }
             }
             else //Otherwise, we hide the scroller control
             {
-                console.log("Entra en else");
+                //Whoops, something went wrong
+                document.getElementById("errorMessage").innerHTML = "Sorry! This is a "+"Reddit-only".bold()+" extension, please go to Reddit to use it :D";
+
                 document.getElementById('rowScroller').style.display = 'none';
                 document.getElementById('rowError').style.display = 'block';
             }
@@ -37,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function ()
 //Function for when the checkbox is clicked
 function cbScrollerClick()
 {
-    console.log('Prueba');
     chrome.tabs.query({ currentWindow: true, active: true },
         function (tabs) 
         {

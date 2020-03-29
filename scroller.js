@@ -1,13 +1,14 @@
 var intervalID;
 var divs;
 var headerHeight;
-var i;
+var i = 0;
 
 chrome.runtime.onMessage.addListener(
-    function(seconds)
+    function(seconds, sender, sendResponse)
     {
         if(seconds > 0)
         {
+            //Get all the different posts in the page (each one is inside a div)
             divs = document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].childNodes;
 
             //We're going to start the iteration of divs
@@ -17,25 +18,27 @@ chrome.runtime.onMessage.addListener(
             headerHeight = document.getElementsByClassName('_1tvdSTbdxaK-BnUbzUIqIY _2GyPfdsi-MbQFyHRECo9GO cx1ohrUAq6ARaXTX2u8YN   ')[0].offsetHeight * -1;
 
             //Start interval
-            intervalID = setInterval(scroller, seconds*1000);
+            intervalID = setInterval(scrollerInterval, seconds*1000);
 
             //Scroll as soon as it's clicked for the first time
             scrollPost();
-
-            function scroller()
-            {
-                scrollPost();
-            }
         }
         else if(seconds == 0)   
         {
-            clearInterval(intervalID);
-            divs = null;
-            i = null;
-            headerHeight = null;
+            stopScroller();
         }     
     }
 )
+
+function scrollerInterval()
+{
+    if(i < divs.length)
+        scrollPost();
+    else
+    {
+        stopScroller();
+    }
+}
 
 function scrollPost()
 {
@@ -58,6 +61,7 @@ function checkVisible(elm) {
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 }
 
+//Sets the correct index, based on where the user is on the webpage
 function setIndex()
 {
     var found = false;
@@ -75,4 +79,12 @@ function setIndex()
         i = j;
     else
         i = 0;
+}
+
+function stopScroller()
+{
+    clearInterval(intervalID);
+    divs = null;
+    i = null;
+    headerHeight = null;
 }
