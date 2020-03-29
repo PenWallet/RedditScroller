@@ -51,19 +51,24 @@ document.addEventListener('DOMContentLoaded', function ()
 //Function for when the checkbox is clicked
 function cbScrollerClick()
 {
-    chrome.tabs.query({ currentWindow: true, active: true },
-        function (tabs) 
-        {
-            //Save the state so it persists when the popup is reopened
-            chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller = cbScroller.checked;
-            chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds = seconds.value;
-
-            if (cbScroller.checked)
-                chrome.tabs.sendMessage(tabs[0].id, seconds.value);
-            else //If it's unchecked, send seconds as 0 (same as stopped, right? ¯\_(ツ)_/¯)
-                chrome.tabs.sendMessage(tabs[0].id, 0);
-        }
-    );
+    if(cbScroller.checked && seconds.value <= 0)
+        cbScroller.checked = false;
+    else
+    {
+        chrome.tabs.query({ currentWindow: true, active: true },
+            function (tabs) 
+            {
+                //Save the state so it persists when the popup is reopened
+                chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller = cbScroller.checked;
+                chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds = seconds.value;
+    
+                if (cbScroller.checked)
+                    chrome.tabs.sendMessage(tabs[0].id, seconds.value);
+                else //If it's unchecked, send seconds as 0 (same as stopped, right? ¯\_(ツ)_/¯)
+                    chrome.tabs.sendMessage(tabs[0].id, 0);
+            }
+        );
+    }
 }
 
 
