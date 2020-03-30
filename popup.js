@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function ()
                 }catch(error) 
                 {
                     //Whoops, something went wrong
-                    document.getElementById("errorMessage").innerHTML = "Please "+"reload this page".bold()+", we need to load important scripts in order for it to work properly :)";
+                    document.getElementById("errorMessage").innerHTML = chrome.i18n.getMessage("errorReload");
 
                     //Show the error, hide the content
                     document.getElementById('rowScroller').style.display = 'none';
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function ()
             else //Otherwise, we hide the scroller control
             {
                 //Whoops, something went wrong
-                document.getElementById("errorMessage").innerHTML = "Sorry! This is a "+"Reddit-only".bold()+" extension, please go to Reddit to use it :D";
+                document.getElementById("errorMessage").innerHTML = chrome.i18n.getMessage("errorNotReddit");
 
                 document.getElementById('rowScroller').style.display = 'none';
                 document.getElementById('rowError').style.display = 'block';

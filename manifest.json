@@ -1,7 +1,7 @@
 {
-  "name": "Reddit Scroller",
+  "name": "__MSG_appName__",
   "version": "0.1.0",
-  "description": "Automatically scroll to the next Reddit post after however many seconds the user wants.",
+  "description": "__MSG_appDesc__",
   "manifest_version": 2,
   "content_scripts": [
     {
@@ -11,7 +11,7 @@
   ],
   "browser_action": {
     "default_popup": "popup.html",
-    "default_title": "Reddit Scroller"
+    "default_title": "__MSG_appName__"
   },
   "background": {
     "scripts": ["background.js"],
@@ -23,5 +23,6 @@
     "48": "icons/48.png",
     "32": "icons/32.png",
     "16": "icons/16.png"
-  }
+  },
+  "default_locale": "en"
 }

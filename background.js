@@ -1,5 +1,4 @@
 var tabData = {};
-var test = 0;
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 
