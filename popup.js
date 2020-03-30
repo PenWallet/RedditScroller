@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function ()
         function (tabs)
         {
             //Enter only if user is in Reddit
-            if(tabs[0].url.indexOf("https://www.reddit.com/") > -1)
+            if(tabs[0].url.indexOf("https://www.reddit.com/") > -1 || tabs[0].url.indexOf("https://old.reddit.com/") > -1)
             {
                 try
                 {
