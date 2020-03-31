@@ -9,30 +9,21 @@ document.addEventListener('DOMContentLoaded', function ()
             //Enter only if user is in Reddit
             if(tabs[0].url.indexOf("https://www.reddit.com/") > -1 || tabs[0].url.indexOf("https://old.reddit.com/") > -1)
             {
-                try
-                {
-                    //Hide error and show the scroller
-                    document.getElementById('rowScroller').style.display = 'block';
-                    document.getElementById('rowError').style.display = 'none';
+                //Hide error and show the scroller
+                document.getElementById('rowScroller').style.display = 'block';
+                document.getElementById('rowError').style.display = 'none';
 
-                    //Recover the state of the popup (per tab basis) 
-                    cbScroller.checked = chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller;
-                    seconds.setAttribute('value',chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds);
+                //Recover the state of the popup (per tab basis)
+                var key = 'tab_' + tabs[0].id;
+                chrome.storage.local.get(key, function(items){
+                    cbScroller.checked = items[key].checkedScroller;
+                    seconds.setAttribute('value', items[key].scrollerSeconds);
+                });
 
-                    //Listeners
-                    cbScroller.addEventListener('click', cbScrollerClick, false);
-                    seconds.onkeypress = isNumber;
-                    seconds.oninput = maxLengthCheck;
-
-                }catch(error) 
-                {
-                    //Whoops, something went wrong
-                    document.getElementById("errorMessage").innerHTML = chrome.i18n.getMessage("errorReload");
-
-                    //Show the error, hide the content
-                    document.getElementById('rowScroller').style.display = 'none';
-                    document.getElementById('rowError').style.display = 'block';
-                }
+                //Listeners
+                cbScroller.addEventListener('click', cbScrollerClick, false);
+                seconds.onkeypress = isNumber;
+                seconds.oninput = maxLengthCheck;
             }
             else //Otherwise, we hide the scroller control
             {
@@ -51,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function ()
 //Function for when the checkbox is clicked
 function cbScrollerClick()
 {
+    //If the user is trying to click on the checkbox with 0 seconds, don't let them
     if(cbScroller.checked && seconds.value <= 0)
         cbScroller.checked = false;
     else
@@ -58,9 +50,13 @@ function cbScrollerClick()
         chrome.tabs.query({ currentWindow: true, active: true },
             function (tabs) 
             {
+                var key = 'tab_' + tabs[0].id;
+
                 //Save the state so it persists when the popup is reopened
-                chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].checkedScroller = cbScroller.checked;
-                chrome.extension.getBackgroundPage().tabData['tab_'+tabs[0].id].scrollerSeconds = seconds.value;
+                chrome.storage.local.set({[key]: {
+                    checkedScroller: cbScroller.checked,
+                    scrollerSeconds: seconds.value
+                }});
     
                 if (cbScroller.checked)
                     chrome.tabs.sendMessage(tabs[0].id, seconds.value);
