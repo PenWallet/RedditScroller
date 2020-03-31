@@ -1,5 +1,4 @@
 var tabData = {};
-var test = 0;
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 
@@ -8,7 +7,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         chrome.tabs.sendMessage(tabId, 0);
 
         //If we're loading into reddit (whether newly, or reloading, doesn't matter)
-        if(tab.url.indexOf("https://www.reddit.com/") > -1)
+        if(tab.url.indexOf("https://www.reddit.com/") > -1 || tab.url.indexOf("https://old.reddit.com/") > -1)
         {
             tabData['tab_' + tabId] = {
                 checkedScroller: false,
