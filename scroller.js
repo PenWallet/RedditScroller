@@ -8,10 +8,10 @@ chrome.runtime.onMessage.addListener(
     {
         if(seconds > 0)
         {
-            //Get all the different posts in the page (each one is inside a div)
-            divs = document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].childNodes;
+            //Get all the different posts in the page (minus promoted posts)
+            setDivsClean();
 
-            //We're going to start the iteration of divs
+            //Search for the first visible post, and set the index to that post
             setIndex();
             
             //Needed to scroll up the header height, so it doesn't overlap the post
@@ -24,9 +24,7 @@ chrome.runtime.onMessage.addListener(
             scrollPost();
         }
         else if(seconds == 0) //If it's 0 seconds, it means we stop the interval
-        {
             stopScroller();
-        }     
     }
 )
 
@@ -45,13 +43,6 @@ function scrollPost()
     divs[i].scrollIntoView();
     window.scrollBy(0, headerHeight);
     i++;
-    
-    //For used to skip posts with height 0 (may be AdBlock?)
-    for(; i < divs.length; i++)
-    {
-        if(divs[i].offsetHeight != 0)
-            break;
-    }
 }
 
 //Sets the correct index, based on where the user is on the webpage
@@ -86,4 +77,17 @@ function checkVisible(elm)
     var rect = elm.getBoundingClientRect();
     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+}
+
+//Function used to get only the posts from the div (minus promoted posts)
+function setDivsClean()
+{
+    var uncleanDivs = document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].childNodes;
+    divs = [];
+
+    for(j = 0; j < uncleanDivs.length; j++)
+    {
+        if(uncleanDivs[j].childNodes[0].childNodes[0].className.indexOf('promotedlink') == -1 && uncleanDivs[j].offsetHeight != 0)
+            divs.push(uncleanDivs[j]);
+    }
 }
