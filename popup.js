@@ -15,15 +15,28 @@ document.addEventListener('DOMContentLoaded', function ()
 
                 //Recover the state of the popup (per tab basis)
                 var key = 'tab_' + tabs[0].id;
-                chrome.storage.local.get(key, function(items){
-                    cbScroller.checked = items[key].checkedScroller;
-                    seconds.setAttribute('value', items[key].scrollerSeconds);
+                chrome.storage.local.get(key, function(items)
+                {
+                    try
+                    {
+                        cbScroller.checked = items[key].checkedScroller;
+                        seconds.setAttribute('value', items[key].scrollerSeconds);
+                    }
+                    catch(error)
+                    {
+                        //Whoops, something went wrong
+                        document.getElementById("errorMessage").innerHTML = chrome.i18n.getMessage("errorFirstInstall");
+        
+                        document.getElementById('rowScroller').style.display = 'none';
+                        document.getElementById('rowError').style.display = 'block';
+                    }
                 });
 
                 //Listeners
                 cbScroller.addEventListener('click', cbScrollerClick, false);
                 seconds.onkeypress = isNumber;
                 seconds.oninput = maxLengthCheck;
+                
             }
             else //Otherwise, we hide the scroller control
             {
