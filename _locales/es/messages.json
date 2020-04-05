@@ -16,7 +16,7 @@
         "description": "Error que se muestra cuando el usuario está intentando usar la extensión en una página que no es Reddit"
     },
     "errorFirstInstall": {
-        "message": "¡Lo siento! Creemos que acabas de instalar la extensión y tenías pestañas de Reddit abiertas. Si ese es el caso, por favor, <b>recarga la página</b> para que funcione correctamente. No deberías volver a ver este mensaje. Si no es el caso, por favor, considera mandarle un mensaje al desarrollador. ¡Gracias!",
+        "message": "¡Lo siento! Creemos que acabas de instalar/habilitar la extensión y tenías pestañas de Reddit abiertas. Si ese es el caso, por favor, <b>recarga la página</b> para que funcione correctamente. No deberías volver a ver este mensaje. Si no es el caso, por favor, considera mandarle un mensaje al desarrollador. ¡Gracias!",
         "description": "Error que se muestra cuando el usuario acaba de instalar la extensión y los datos para la pestaña aún no se han creado porque tenía pestañas de Reddit abiertas."
     }
 }

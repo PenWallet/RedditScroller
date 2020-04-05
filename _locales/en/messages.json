@@ -16,7 +16,7 @@
         "description": "Error shown when the user is trying to use the extension in a webpage outside Reddit"
     },
     "errorFirstInstall": {
-        "message": "Sorry! We think you just installed this extension and had Reddit tabs open, if so, please <b>reload this page</b> for it to work properly. You shouldn't see this message from now on. If that's not the case, please consider reporting this issue to the developer. Thanks!",
-        "description": "Error shown when the user just installed the extension, and data for tabs hasn't been created because he had tabs open"
+        "message": "Sorry! We think you just installed/enabled this extension and had Reddit tabs open, if so, please <b>reload this page</b> for it to work properly. You shouldn't see this message from now on. If that's not the case, please consider reporting this issue to the developer. Thanks!",
+        "description": "Error shown when the user just installed/enabled the extension, and data for tabs hasn't been created because he had tabs open"
     }
 }

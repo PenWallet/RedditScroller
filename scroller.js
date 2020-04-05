@@ -68,7 +68,6 @@ function stopScroller()
 {
     clearInterval(intervalID);
     i = 0;
-    adsAmount = 0;
     intervalID = null;
     divs = [];
     headerHeight = null;
