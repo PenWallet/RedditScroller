@@ -1,5 +1,5 @@
 var intervalID;
-var divs;
+var divs = [];
 var headerHeight;
 var i = 0;
 
@@ -8,8 +8,8 @@ chrome.runtime.onMessage.addListener(
     {
         if(seconds > 0)
         {
-            //Get all the different posts in the page (minus promoted posts)
-            setDivsClean();
+            //Get all the different posts in the page
+            divs = document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].childNodes;
 
             //Search for the first visible post, and set the index to that post
             setIndex();
@@ -40,6 +40,9 @@ function scrollerInterval()
 //Scrolls to the next post, uses global variables
 function scrollPost()
 {
+    while(checkIsPostAd(divs[i]))
+        i++;
+    
     divs[i].scrollIntoView();
     window.scrollBy(0, headerHeight);
     i++;
@@ -65,8 +68,9 @@ function stopScroller()
 {
     clearInterval(intervalID);
     i = 0;
+    adsAmount = 0;
     intervalID = null;
-    divs = null;
+    divs = [];
     headerHeight = null;
 }
 
@@ -79,15 +83,11 @@ function checkVisible(elm)
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 }
 
-//Function used to get only the posts from the div (minus promoted posts)
-function setDivsClean()
+//Used to check whether a post is an ad or not
+function checkIsPostAd(element)
 {
-    var uncleanDivs = document.getElementsByClassName('rpBJOHq2PR60pnwJlUyP0')[0].childNodes;
-    divs = [];
-
-    for(j = 0; j < uncleanDivs.length; j++)
-    {
-        if(uncleanDivs[j].childNodes[0].childNodes[0].className.indexOf('promotedlink') == -1 && uncleanDivs[j].offsetHeight != 0)
-            divs.push(uncleanDivs[j]);
-    }
+    if(element.childNodes[0].childNodes[0].className.indexOf('promotedlink') > -1 || element.offsetHeight == 0)
+        return true;
+    else
+        return false;
 }
