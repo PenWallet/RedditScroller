@@ -12,7 +12,7 @@
         "description": "Error que se muestra cuando el usuario debe recargar la página porque falten scripts por cargar"
     },
     "errorNotReddit": {
-        "message": "¡Lo sientto! Esta extensión está hecha para ser usada <b>solo en Reddit</b> :)",
+        "message": "¡Lo siento! Esta extensión está hecha para ser usada <b>solo en Reddit</b> :)",
         "description": "Error que se muestra cuando el usuario está intentando usar la extensión en una página que no es Reddit"
     },
     "errorFirstInstall": {
